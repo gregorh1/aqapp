@@ -20,5 +20,8 @@
   "dependencies": {
     "cordova-plugin-whitelist": "1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "async": "^3.1.0",
+    "child_process": "^1.0.2"
+  }
 }
