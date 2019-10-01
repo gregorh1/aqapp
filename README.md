@@ -1,0 +1,3 @@
+- to run backend server: `node ./backend/index.js`
+- to build react app inside `/front/_reactApp` run: `npm run build`
+- to build and run cordova app (eg. for browser) run `cordova build` and `cordova emulate`
