@@ -14,10 +14,12 @@
   "license": "Apache-2.0",
   "cordova": {
     "plugins": {
-      "cordova-plugin-whitelist": {}
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-geolocation": {}
     }
   },
   "dependencies": {
+    "cordova-plugin-geolocation": "^4.0.2",
     "cordova-plugin-whitelist": "1"
   },
   "devDependencies": {
