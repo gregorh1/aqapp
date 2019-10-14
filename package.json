@@ -4,8 +4,10 @@
   "description": "App, that fetches air condition data from several sources and display it on map. Build on:  - node.js and express.js,  - cordova  - react (cra)",
   "main": "''",
   "scripts": {
-    "dev": "concurrently --kill-others  \"cd front/_reactApp/ && node watch-files.js\" \"cd front/_reactApp/ && npm start\" \" cd backend/ && node index.js \" ",
-    "build": "cd front/_reactApp/ && npm run build"
+    "dev": "concurrently --kill-others \"cd front/_reactApp/ && node watch-files.js\" \"cd front/_reactApp/ && npm start\" \" cd backend/ && node api.js \" ",
+    "backend": "node ./backend/api.js",
+    "front": "concurrently --kill-others \"cd front/_reactApp/ && node watch-files.js\" \"cd front/_reactApp/ && npm start\"",
+    "build-react": "cd front/_reactApp/ && npm run build"
   },
   "repository": {
     "type": "git",
