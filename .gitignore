@@ -3,6 +3,7 @@
 /front/platforms
 /front/plugins
 /front/_reactApp/src/index.css
+/backend/credentials.js
 
 # testing
 /front/_reactApp/coverage
