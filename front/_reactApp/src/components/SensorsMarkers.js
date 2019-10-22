@@ -1,38 +1,30 @@
-import React, { Component, Fragment } from 'react'
-import { Marker, Popup } from 'react-leaflet'
-import L from 'leaflet'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-const markerIcon = new L.Icon({
-    iconUrl: require('../../assets/circle.svg'),
-    // iconRetinaUrl: require('../assets/suitcaseIcon.svg'),
-    // iconAnchor: [20, 20],
-    popupAnchor: [0, -20],
-    iconSize: [20, 20],
-    // shadowUrl: '../assets/marker-shadow.png',
-    // shadowSize: [29, 40],
-    // shadowAnchor: [7, 40],
-    className: 'is-pointShadow'
-  })
+import InfoPopup from './InfoPopup'
+import MyMarkersList from './MyMarkersList'
+import { setSensorData, getSensorsList } from '../store/actions'
+class SensorsMarkers extends Component {
+    getSensorData = (sensorId) => {
+        const url = new URL('https://airapi.airly.eu/v2/measurements/installation');
+        const params = {
+            installationId: sensorId,
+            indexType: 'AIRLY_CAQI',
+            indexPollutant: 'PM'
+        };
+        const headers = {
+            Accept: 'application/json',
+            apikey: 'SH2BH7ThG89LH94gAAJX782mRnoREkZP'
+        }
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
-const MyPopupMarker = ({ content, position }) => (
-    <Marker position={position} 
-    // icon={markerIcon}
-    >
-        <Popup>{content}</Popup>
-    </Marker>
-)
-
-const MyMarkersList = ({ markers }) => {
-    const items = markers.map(({ key, ...props }) => (
-        <MyPopupMarker key={key} {...props} />
-    ))
-    return <Fragment>{items}</Fragment>
-}
-
-export default class SensorsMarkers extends Component {
-    state = {
-        openaq: [],
-        airly: []
+        fetch(url, { headers })
+            .then(resp => {
+                return resp.json()
+            })
+            .then(respJson => {
+                this.props.setSensorData(respJson)
+            })
     }
 
     getSensorsFromApi = (slug) => {
@@ -41,30 +33,41 @@ export default class SensorsMarkers extends Component {
                 return resp.json()
             })
             .then(respJson => {
-                console.log(respJson);
-                this.setState({
-                    [slug]: respJson
-                })
+                this.props.getSensorsList(respJson)
             })
     }
 
     componentDidMount() {
-        this.getSensorsFromApi('openaq')
-        this.getSensorsFromApi('airly')
+        const bond = {
+            latMin: '50.162097',
+            latMax: '50.445301',
+            lngMin: '19.064042',
+            lngMax: '19.307412'
+        }
+        this.getSensorsFromApi(`data?latMax=${bond.latMax}&latMin=${bond.latMin}&lngMax=${bond.lngMax}&lngMin=${bond.lngMin}`)
     }
 
     render() {
         return (
             <div>
-                <MyMarkersList markers={this.state.openaq} />
-                <MyMarkersList markers={this.state.airly} />
+                <MyMarkersList markers={this.props.data} getSensorData={this.getSensorData} />
+                <InfoPopup sensorInfo={this.props.currentSensorInfo} isPopupOpen={this.props.isPopupOpen} />
             </div>
         )
     }
 }
 
-// markers: [
-//     { key: 'marker1', position: [51.5, -0.1], content: 'My first popup' },
-//     { key: 'marker2', position: [51.51, -0.1], content: 'My second popup' },
-//     { key: 'marker3', position: [51.49, -0.05], content: 'My third popup' },
-//   ],
+const mapStateToProps = state => {
+    return state
+};
+const mapDispatchToProps = dispatch => {
+    return {
+        setSensorData: data => dispatch(setSensorData(data)),
+        getSensorsList: currentSensorInfo => dispatch(getSensorsList(currentSensorInfo))
+    }
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SensorsMarkers);

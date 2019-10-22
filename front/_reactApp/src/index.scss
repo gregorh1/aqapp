@@ -8,21 +8,83 @@ body {
 }
 .is-geoLocBtn {
     position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 1000;
-    margin: 10px;
-    height: 50px;
-    width: 50px;
-    border-radius: 20%;
-    border: 1px solid grey;
-    display: flex;
-    justify-content: center;
+    top: 83px;
+    left: 0;
+    height: 30px;
+    width: 30px;
+    margin-left: 10px;
     align-items: center;
-    background: white;
+    border: 2px solid rgba(0,0,0,0.2);
+    border-radius: 4px;
+    z-index: 1000;
+    span {
+        display: flex;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        background: white;
+        border-radius: 4px;
+        
+    }
 }
-.is-pointShadow { // not used yet
-    box-shadow: 0px 0px 57px 35px green;
+.is-myLoc {
+    box-shadow: 0px 0px 0px 6px #4285f466;
     border-radius: 50%;
-    border: 1px solid;
+    border: 1px solid #fff;
+    background-color: #3d7dc9;
+}
+.is-sensor {
+    box-shadow: 0px 0px 4px 4px #00000066;
+    border-radius: 50%;
+    border: 1px solid #777;
+    background-color: #d000ff;
+}
+.is-infoPopup {
+    z-index: 1000;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+}
+
+// bootstrap styles:
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+.card-header {
+    padding: .75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: rgba(0,0,0,.03);
+    &:first-child {
+        border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
+    }
+}
+.list-group {
+    display: flex;
+    flex-direction: column;
+    padding-left: 0;
+    margin: 0;
+    &:first-child {
+        border-top: 0;
+    }
+}
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: .75rem 1.25rem;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
 }
