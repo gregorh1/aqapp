@@ -1,12 +1,32 @@
+export const SET_POSITION = 'SET_POSITION';
 export const GET_MY_GEOLOCATION = 'GET_MY_GEOLOCATION';
 export const POPUP_HIDE = 'POPUP_HIDE';
 export const SET_SENSOR_DATA = 'SET_SENSOR_DATA';
 export const GET_SENSORS_LIST = 'GET_SENSORS_LIST';
 
-export const getMyGeolocation = location => {
+export const setPosition = data => {
+    return {
+        type: SET_POSITION,
+        payload: {
+            position: [
+                Number(data.position[0]),
+                Number(data.position[1])
+            ],
+            zoom: data.zoom
+        }
+    };
+};
+export const getMyGeolocation = data => {
     return {
         type: GET_MY_GEOLOCATION,
-        payload: location
+        payload: {
+            position: [
+                Number(data.position[0]),
+                Number(data.position[1])
+            ],
+            zoom: data.zoom,
+            myLocation: data.myLocation
+        }
     };
 };
 export const popupHide = () => {

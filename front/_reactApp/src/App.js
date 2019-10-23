@@ -3,9 +3,10 @@ import { Map, TileLayer, Marker } from 'react-leaflet'
 import L from 'leaflet'
 import { connect } from 'react-redux'
 
+import { setPosition, getMyGeolocation, popupHide, getSensorsList } from './store/actions'
 import GeoLocBtn from './components/GeoLocBtn'
 import SensorsMarkers from './components/SensorsMarkers'
-import { getMyGeolocation, popupHide } from './store/actions'
+import Search from './components/Search';
 
 const myLocIcon = new L.Icon({
     iconUrl: require('../assets/circle.svg'),
@@ -17,42 +18,88 @@ class App extends Component {
     myGeoLocation = () => {
         const onSuccess = (pos) => {
             this.props.getMyGeolocation({
-                lat: pos.coords.latitude,
-                lng: pos.coords.longitude,
-                zoom: 13
+                position: [pos.coords.latitude, pos.coords.longitude,],
+                zoom: 15,
+                myLocation: [pos.coords.latitude, pos.coords.longitude,]
             })
             this.refs.map.leafletElement.flyTo([pos.coords.latitude, pos.coords.longitude], 11)
+            this.updateSensorsMarkers()
         }
         const onError = (error) => {
-            this.props.getMyGeolocation({
-                lat: 50.3,
-                lng: 19.166667
-            })
+            this.props.setPosition({ position: [50.3, 19.166667] })
             console.error('code: ' + error.code + '\n' +
                 'message: ' + error.message + '\n');
         }
         navigator.geolocation.getCurrentPosition(onSuccess, onError);
     }
 
+    getPositionFromSearch = (latLng, boundingbox) => {
+        this.props.setPosition({ position: latLng, zoom: 13 })
+        this.updateSensorsMarkers()
+    }
+
+    getSensorsFromApi = (slug) => {
+        fetch(`http://localhost:3002/${slug}`) // works with cross-origin allowed
+            .then(resp => {
+                return resp.json()
+            })
+            .then(respJson => {
+                this.props.getSensorsList(respJson)
+            })
+    }
+
+    updateSensorsMarkers() {
+        const bond = {
+            latMin: this.props.position[0] - 0.25,
+            latMax: this.props.position[0] + 0.25,
+            lngMin: this.props.position[1] - 0.15,
+            lngMax: this.props.position[1] + 0.15
+        }
+        this.getSensorsFromApi(`data?latMax=${bond.latMax}&latMin=${bond.latMin}&lngMax=${bond.lngMax}&lngMin=${bond.lngMin}`)
+    }
+
+    componentDidMount() {
+        this.myGeoLocation();
+    }
+
+    onDragendHandler = (e) => {
+        this.props.setPosition({
+            position: [
+                e.target._latlng.lat,
+                e.target._latlng.lng
+            ]
+        })
+        this.updateSensorsMarkers()
+    }
+
     render() {
-        const position = [this.props.lat, this.props.lng];
         return (
             <div>
                 <Map
                     ref='map'
-                    center={position}
+                    center={this.props.position}
                     zoom={this.props.zoom}
                     onpopupclose={this.props.popupHide}
                     animate={true}
+                    zoomControl={false}
                 >
                     <TileLayer
                         attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <Marker position={position} icon={myLocIcon} />
+                    <Marker
+                        position={this.props.position} draggable={true}
+                        onDragend={(e) => this.onDragendHandler(e)}
+                    />
+                    {this.props.myLocation &&
+                        <Marker
+                            position={this.props.myLocation}
+                            icon={myLocIcon}
+                        />}
                     <SensorsMarkers />
                 </Map>
                 <GeoLocBtn myGeoLocation={this.myGeoLocation} />
+                <Search getPositionFromSearch={this.getPositionFromSearch} />
             </div>
         );
     }
@@ -63,8 +110,10 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
     return {
+        setPosition: location => dispatch(setPosition(location)),
         getMyGeolocation: location => dispatch(getMyGeolocation(location)),
-        popupHide: () => dispatch(popupHide())
+        popupHide: () => dispatch(popupHide()),
+        getSensorsList: currentSensorInfo => dispatch(getSensorsList(currentSensorInfo))
     }
 };
 

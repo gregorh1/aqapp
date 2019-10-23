@@ -1,0 +1,158 @@
+@import "./vars";
+@import "./fonts";
+@import "./loaders";
+
+* {
+    margin: 0;
+    padding: 0;
+    color: $cl_grey33;
+    font-family: "PT Sans", sans-serif;
+}
+body {
+    // color: $cl_grey33
+}
+.leaflet-container {
+    height: 100vh;
+}
+.is-geoLocBtn {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    height: 40px;
+    width: 40px;
+    align-items: center;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    z-index: 1000;
+    span {
+        display: flex;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        background: white;
+        border-radius: 4px;
+    }
+}
+.is-searchBarContainer {
+    position: absolute;
+    top: 16px;
+    left: 76px;
+    z-index: 1000;
+}
+.is-searchBar {
+    display: flex;
+    height: 40px;
+    width: calc(100vw - 94px);
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    background-color: #fff;
+    &_iconContainer {
+        min-width: 40px;
+        display: flex;
+        justify-content: center;
+        border-left: 1px solid rgba(0, 0, 0, 0.2);
+        height: 100%;
+        align-items: center;
+    }
+    &_icon {
+        height: 56%;
+    }
+    &_input {
+        width: inherit;
+        padding: 0 10px;
+        border: 0;
+    }
+    .is-loaderDots {
+        position: absolute;
+        right: 98px;
+        top: -9px;
+    }
+    .is-clearSearch {
+        position: absolute;
+        top: 4px;
+        right: 45px;
+        font-size: 30px;
+        padding: 0 10px;
+    }
+}
+.is-placesList {
+    position: absolute;
+    top: 54px;
+    width: calc(100vw - 94px);
+    padding: 0;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    background-color: #fff;
+    z-index: 1000;
+    &_item {
+        list-style-type: none;
+        padding: 7px 10px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        font-size: 14px;
+        line-height: 1.4;
+        &:last-child {
+            border: 0;
+        }
+    }
+}
+.is-myLoc {
+    box-shadow: 0px 0px 0px 6px #4285f466;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    background-color: #3d7dc9;
+}
+.is-sensor {
+    box-shadow: 0px 0px 4px 4px #00000066;
+    border-radius: 50%;
+    border: 1px solid #777;
+    background-color: #d000ff;
+}
+.is-infoPopup {
+    z-index: 1000;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+}
+
+// bootstrap styles:
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+}
+.card-header {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: rgba(0, 0, 0, 0.03);
+    &:first-child {
+        border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+    }
+}
+.list-group {
+    display: flex;
+    flex-direction: column;
+    padding-left: 0;
+    margin: 0;
+    &:first-child {
+        border-top: 0;
+    }
+}
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+}
