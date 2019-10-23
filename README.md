@@ -4,7 +4,10 @@ App, that fetches air condition data from several sources and display it on map.
 - react (cra),
 - cordova.
 
-## To work with project fetch repo instal tools (listed above), install dependencies and:
+### Trello board
+- https://trello.com/b/WFB7sHFa/aqapp 
+
+### To work with project fetch repo instal tools (listed above), install dependencies and:
 
 - to run all just type `npm run dev`
 
