@@ -1,11 +1,17 @@
 const express = require('express')
 const app = express()
 let port = process.env.PORT;
-if (port == null || port == "") {
-  port = 3002;
+if (port == null || port == '') {
+    port = 3002;
 }
 const axios = require('axios')
 const credentials = require('./credentials') // not committed file
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+})
 
 const mongoose = require('mongoose')
 mongoose.connect(credentials.mongoUri, { useNewUrlParser: true })

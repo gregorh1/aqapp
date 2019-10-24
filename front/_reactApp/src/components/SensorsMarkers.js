@@ -7,15 +7,15 @@ import { setSensorData } from '../store/actions'
 class SensorsMarkers extends Component {
     getSensorData = (sensorId) => {
         const url = new URL('https://airapi.airly.eu/v2/measurements/installation');
+        const headers = {
+            Accept: 'application/json',
+            apikey: 'SH2BH7ThG89LH94gAAJX782mRnoREkZP'
+        };
         const params = {
             installationId: sensorId,
             indexType: 'AIRLY_CAQI',
             indexPollutant: 'PM'
         };
-        const headers = {
-            Accept: 'application/json',
-            apikey: 'SH2BH7ThG89LH94gAAJX782mRnoREkZP'
-        }
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
         fetch(url, { headers })

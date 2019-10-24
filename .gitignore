@@ -4,6 +4,8 @@
 /front/plugins
 /front/_reactApp/src/index.css
 /backend/credentials.js
+/front/build.json
+/front/android.keystore
 
 # testing
 /front/_reactApp/coverage
