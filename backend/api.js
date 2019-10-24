@@ -1,6 +1,9 @@
 const express = require('express')
 const app = express()
-const port = 3002
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3002;
+}
 const axios = require('axios')
 const credentials = require('./credentials') // not committed file
 

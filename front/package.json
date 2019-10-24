@@ -16,9 +16,13 @@
     "plugins": {
       "cordova-plugin-whitelist": {},
       "cordova-plugin-geolocation": {}
-    }
+    },
+    "platforms": [
+      "android"
+    ]
   },
   "dependencies": {
+    "cordova-android": "^8.1.0",
     "cordova-plugin-geolocation": "^4.0.2",
     "cordova-plugin-whitelist": "1"
   },

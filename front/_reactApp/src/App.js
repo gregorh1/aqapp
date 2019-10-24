@@ -8,6 +8,11 @@ import GeoLocBtn from './components/GeoLocBtn'
 import SensorsMarkers from './components/SensorsMarkers'
 import Search from './components/Search';
 
+const backend = {
+    local: 'http://localhost:3002/',
+    heroku: 'https://aq-app-backend.herokuapp.com/'
+}
+
 const myLocIcon = new L.Icon({
     iconUrl: require('../assets/circle.svg'),
     popupAnchor: [0, -20],
@@ -39,7 +44,7 @@ class App extends Component {
     }
 
     getSensorsFromApi = (slug) => {
-        fetch(`http://localhost:3002/${slug}`) // works with cross-origin allowed
+        fetch(backend.heroku + slug)
             .then(resp => {
                 return resp.json()
             })
