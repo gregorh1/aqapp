@@ -13,8 +13,6 @@ class SensorsMarkers extends Component {
         };
         const params = {
             installationId: sensorId,
-            indexType: 'AIRLY_CAQI',
-            indexPollutant: 'PM'
         };
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 

@@ -7,9 +7,7 @@
     padding: 0;
     color: $cl_grey33;
     font-family: "PT Sans", sans-serif;
-}
-body {
-    // color: $cl_grey33
+    font-size: 15px;
 }
 .leaflet-container {
     height: 100vh;
@@ -106,6 +104,19 @@ body {
     border-radius: 50%;
     border: 1px solid #777;
     background-color: #d000ff;
+}
+.is-sensorPopup {
+    padding: 0;
+    .leaflet-popup-content-wrapper {
+        border-radius: 4px;
+    }
+    .leaflet-popup-content {
+        margin: 5px 5px;
+    }
+    .leaflet-popup-tip {
+        width: 12px;
+        height: 12px;
+    }
 }
 .is-infoPopup {
     z-index: 1000;
