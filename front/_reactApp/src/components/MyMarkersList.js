@@ -14,7 +14,7 @@ const MyPopupMarker = ({ content, position, sensorId, getSensorData }) => (
         onclick={() => { getSensorData(sensorId) }}
         icon={sensorIcon}
     >
-        <Popup closeButton={false}>
+        <Popup closeButton={false} className="is-sensorPopup">
             {content}
         </Popup>
     </Marker>

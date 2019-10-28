@@ -20,6 +20,17 @@ const myLocIcon = new L.Icon({
     className: 'is-myLoc'
 })
 class App extends Component {
+
+    componentDidMount() {
+        this.myGeoLocation();
+    }
+    
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.position !== this.props.position) {
+            this.updateSensorsMarkers()
+        }
+    }
+
     myGeoLocation = () => {
         const onSuccess = (pos) => {
             this.props.getMyGeolocation({
@@ -28,7 +39,6 @@ class App extends Component {
                 myLocation: [pos.coords.latitude, pos.coords.longitude,]
             })
             this.refs.map.leafletElement.flyTo([pos.coords.latitude, pos.coords.longitude], 11)
-            this.updateSensorsMarkers()
         }
         const onError = (error) => {
             this.props.setPosition({ position: [50.3, 19.166667] })
@@ -40,7 +50,6 @@ class App extends Component {
 
     getPositionFromSearch = (latLng, boundingbox) => {
         this.props.setPosition({ position: latLng, zoom: 13 })
-        this.updateSensorsMarkers()
     }
 
     getSensorsFromApi = (slug) => {
@@ -63,9 +72,6 @@ class App extends Component {
         this.getSensorsFromApi(`data?latMax=${bond.latMax}&latMin=${bond.latMin}&lngMax=${bond.lngMax}&lngMin=${bond.lngMin}`)
     }
 
-    componentDidMount() {
-        this.myGeoLocation();
-    }
 
     onDragendHandler = (e) => {
         this.props.setPosition({
@@ -74,7 +80,6 @@ class App extends Component {
                 e.target._latlng.lng
             ]
         })
-        this.updateSensorsMarkers()
     }
 
     render() {

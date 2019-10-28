@@ -80,13 +80,14 @@ const updateSensors = (isForce = false) => {
             useAxios(apis.airly)
                 .then(extResponse => {
                     const sensors = extResponse.data.map((item) => {
+                        const content = `${!item.address.displayAddress1 ? '' : (item.address.displayAddress1 + ', ')}${item.address.displayAddress2 || ''}`
                         return {
                             key: item.id,
                             position: [
                                 item.location.latitude,
                                 item.location.longitude
                             ],
-                            content: item.address.displayAddress1 + ', ' + item.address.displayAddress2,
+                            content: content,
                             sensorId: item.id,
                             provider: 'airly'
                         }
