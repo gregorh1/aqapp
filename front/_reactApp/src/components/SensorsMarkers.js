@@ -9,7 +9,8 @@ class SensorsMarkers extends Component {
         const url = new URL('https://airapi.airly.eu/v2/measurements/installation');
         const headers = {
             Accept: 'application/json',
-            apikey: 'SH2BH7ThG89LH94gAAJX782mRnoREkZP'
+            apikey: 'SH2BH7ThG89LH94gAAJX782mRnoREkZP',
+            'Accept-Language': 'pl'
         };
         const params = {
             installationId: sensorId,

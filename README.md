@@ -9,7 +9,7 @@ App, that fetches air condition data from several sources and display it on map.
 
 ### Deploys: 
 - http://mobiletest.me/htc_one_emulator/?u=http://devgreg.pl/projects/aqapp/
-- add: google play (when accepted by ggl play)
+- Google Play: https://play.google.com/store/apps/details?id=pl.devgreg.airqcheck
 
 ### To work with project fetch repo instal tools (listed above), install dependencies and:
 
