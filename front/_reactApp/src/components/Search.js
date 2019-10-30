@@ -31,6 +31,14 @@ const Search = props => {
                     }
                     setLoader(false)
                 })
+                .catch(err => {
+                    console.error(err);
+                    setPlacesList([{
+                        place_id: 1,
+                        display_name: 'Przepraszamy - wystąpił błąd API wyszukiwania, prosimy spróbować za chwilę'
+                    }])
+                    setLoader(false)
+                })
         }
     }
 
