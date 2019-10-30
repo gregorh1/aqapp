@@ -186,6 +186,11 @@ app.get('/data', (req, res) => {
         })
 })
 
+setInterval(() => {
+    updateSensors();
+    console.log('sensors updateing from setInterval');
+}, 1000 * 60 * 12);
+
 app.listen(port)
 
 console.log(`serwer is listening on port: ${port}`)

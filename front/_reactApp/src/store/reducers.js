@@ -9,8 +9,8 @@ import {
 } from './actions'
 
 const initialState = {
-    position: [51.919438, 19.145136],
-    zoom: 5,
+    position: [52.153925, 20.997962],
+    zoom: 11,
     myLocation: null,
     myLocationPermission: NOT_ASKED_YET,
     sensors: [],

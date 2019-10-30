@@ -19,7 +19,7 @@ const myLocIcon = new L.Icon({
 class App extends Component {
 
     componentDidMount() {
-        this.myGeoLocation();
+        this.getSensorsFromApi()
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
