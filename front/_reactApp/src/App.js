@@ -3,15 +3,12 @@ import { Map, TileLayer, Marker } from 'react-leaflet'
 import L from 'leaflet'
 import { connect } from 'react-redux'
 
-import { setPosition, getMyGeolocation, popupHide, getSensorsList } from './store/actions'
+import { setPosition, getMyGeolocation, popupHide, getSensorsList, myGeolocationDenial, setSensorData } from './store/actions'
 import GeoLocBtn from './components/GeoLocBtn'
 import SensorsMarkers from './components/SensorsMarkers'
 import Search from './components/Search';
 
-const backend = {
-    local: 'http://localhost:3002/',
-    heroku: 'https://aq-app-backend.herokuapp.com/'
-}
+import { NOT_PERMITED, GRANTED } from './store/actions'
 
 const myLocIcon = new L.Icon({
     iconUrl: require('../assets/circle.svg'),
@@ -24,10 +21,10 @@ class App extends Component {
     componentDidMount() {
         this.myGeoLocation();
     }
-    
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.position !== this.props.position) {
-            this.updateSensorsMarkers()
+            this.getSensorsFromApi()
         }
     }
 
@@ -36,14 +33,17 @@ class App extends Component {
             this.props.getMyGeolocation({
                 position: [pos.coords.latitude, pos.coords.longitude,],
                 zoom: 15,
-                myLocation: [pos.coords.latitude, pos.coords.longitude,]
+                myLocation: [pos.coords.latitude, pos.coords.longitude,],
+                myLocationPermission: GRANTED,
             })
-            this.refs.map.leafletElement.flyTo([pos.coords.latitude, pos.coords.longitude], 11)
+            this.refs.map.leafletElement.closePopup()
         }
         const onError = (error) => {
-            this.props.setPosition({ position: [50.3, 19.166667] })
-            console.error('code: ' + error.code + '\n' +
-                'message: ' + error.message + '\n');
+            this.props.myGeolocationDenial({
+                myLocationPermission: NOT_PERMITED,
+                position: this.props.position
+            })
+            console.error(error);
         }
         navigator.geolocation.getCurrentPosition(onSuccess, onError);
     }
@@ -52,8 +52,23 @@ class App extends Component {
         this.props.setPosition({ position: latLng, zoom: 13 })
     }
 
-    getSensorsFromApi = (slug) => {
-        fetch(backend.heroku + slug)
+    getSensorsFromApi = () => {
+        const backend = {
+            local: 'http://localhost:3002/data',
+            heroku: 'https://aq-app-backend.herokuapp.com/data'
+        }
+        const { _southWest, _northEast } = this.refs.map.leafletElement.getBounds();
+        const params = {
+            latMin: _southWest.lat,
+            latMax: _northEast.lat,
+            lngMin: _southWest.lng,
+            lngMax: _northEast.lng
+        }
+        const url = new URL(backend.heroku) // if local change to local
+
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+
+        fetch(url)
             .then(resp => {
                 return resp.json()
             })
@@ -62,53 +77,43 @@ class App extends Component {
             })
     }
 
-    updateSensorsMarkers() {
-        const bond = {
-            latMin: this.props.position[0] - 0.25,
-            latMax: this.props.position[0] + 0.25,
-            lngMin: this.props.position[1] - 0.15,
-            lngMax: this.props.position[1] + 0.15
-        }
-        this.getSensorsFromApi(`data?latMax=${bond.latMax}&latMin=${bond.latMin}&lngMax=${bond.lngMax}&lngMin=${bond.lngMin}`)
+    onZoomEndHandler = () => {
+        this.props.setPosition({
+            position: this.props.position,
+            zoom: this.refs.map.leafletElement.getZoom()
+        })
     }
 
-
-    onDragendHandler = (e) => {
+    onMoveEndHandler = () => {
+        const { lat, lng } = this.refs.map.leafletElement.getCenter()
+        const position = [lat, lng]
         this.props.setPosition({
-            position: [
-                e.target._latlng.lat,
-                e.target._latlng.lng
-            ]
+            position,
+            zoom: this.props.zoom
         })
     }
 
     render() {
         return (
-            <div>
+            <div className={'is-zoom_' + this.props.zoom}>
                 <Map
                     ref='map'
                     center={this.props.position}
                     zoom={this.props.zoom}
-                    onpopupclose={this.props.popupHide}
                     animate={true}
                     zoomControl={false}
+                    onPopupClose={this.props.popupHide}
+                    onZoomEnd={this.onZoomEndHandler}
+                    onDragEnd={this.onMoveEndHandler}
                 >
                     <TileLayer
                         attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <Marker
-                        position={this.props.position} draggable={true}
-                        onDragend={(e) => this.onDragendHandler(e)}
-                    />
-                    {this.props.myLocation &&
-                        <Marker
-                            position={this.props.myLocation}
-                            icon={myLocIcon}
-                        />}
+                    {this.props.myLocation && <Marker position={this.props.myLocation} icon={myLocIcon} />}
                     <SensorsMarkers />
                 </Map>
-                <GeoLocBtn myGeoLocation={this.myGeoLocation} />
+                <GeoLocBtn myGeoLocationOnclick={this.myGeoLocation} myLocationPermission={this.props.myLocationPermission} />
                 <Search getPositionFromSearch={this.getPositionFromSearch} />
             </div>
         );
@@ -123,7 +128,9 @@ const mapDispatchToProps = dispatch => {
         setPosition: location => dispatch(setPosition(location)),
         getMyGeolocation: location => dispatch(getMyGeolocation(location)),
         popupHide: () => dispatch(popupHide()),
-        getSensorsList: currentSensorInfo => dispatch(getSensorsList(currentSensorInfo))
+        getSensorsList: currentSensorInfo => dispatch(getSensorsList(currentSensorInfo)),
+        myGeolocationDenial: data => dispatch(myGeolocationDenial(data)),
+        setSensorData: data => dispatch(setSensorData(data))
     }
 };
 

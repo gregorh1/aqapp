@@ -4,7 +4,7 @@ import L from 'leaflet'
 
 const sensorIcon = new L.Icon({
     iconUrl: require('../../assets/circle.svg'),
-    popupAnchor: [1, 0],
+    popupAnchor: [-3, 0],
     iconSize: [8, 8],
     className: 'is-sensor'
 })

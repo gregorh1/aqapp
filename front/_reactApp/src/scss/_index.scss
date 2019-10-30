@@ -9,8 +9,43 @@
     font-family: "PT Sans", sans-serif;
     font-size: 15px;
 }
+
+// leaflet overrites
 .leaflet-container {
     height: 100vh;
+}
+.leaflet-control-attribution {
+    a {
+        font-size: 11px;
+    }
+}
+
+// app styles
+.is-zoom {
+    @for $i from 0 through 19 {
+        @if $i < 10 {
+            &_#{$i} {
+                .is-sensor {
+                    height: calc( #{$i * 4}px - 30px) !important;
+                    width: calc( #{$i * 4}px - 30px) !important;
+                }
+                .is-sensorPopup {
+                    margin-left: calc( #{$i * 2}px - 15px);
+                }
+            }
+        } @else {
+            &_#{$i} {
+                .is-sensor {
+                    height: calc( #{$i * 4}px - 30px) !important;
+                    width: calc( #{$i * 4}px - 30px) !important;
+                    box-shadow: 0px 0px 4px 4px #00000066;
+                }
+                .is-sensorPopup {
+                    margin-left: calc( #{$i * 2}px - 15px);
+                }
+            }
+        }
+    }
 }
 .is-geoLocBtn {
     position: absolute;
@@ -23,12 +58,17 @@
     border-radius: 4px;
     z-index: 1000;
     span {
-        display: flex;
-        justify-content: center;
         height: 100%;
         width: 100%;
+        display: flex;
+        justify-content: center;
         background: white;
         border-radius: 4px;
+    }
+    svg {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
     }
 }
 .is-searchBarContainer {
@@ -100,7 +140,6 @@
     background-color: #3d7dc9;
 }
 .is-sensor {
-    box-shadow: 0px 0px 4px 4px #00000066;
     border-radius: 50%;
     border: 1px solid #777;
     background-color: #d000ff;
@@ -127,7 +166,6 @@
 }
 
 // bootstrap styles:
-
 .card {
     position: relative;
     display: flex;
