@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import icon from '../../assets/search-icon.svg'
+import iconClose from '../../assets/close-icon.svg'
 
 const Search = props => {
 
@@ -62,7 +63,9 @@ const Search = props => {
         <div className="is-searchBarContainer">
             <div className="is-searchBar">
                 {loader && <span className="is-loaderDots"></span>}
-                <span onClick={e => {setPlacesList(''); setUserInput('')}} className="is-clearSearch">x</span>
+                <span onClick={e => {setPlacesList(''); setUserInput('')}} className="is-clearSearch">
+                    <img src={iconClose} alt="wyszukaj"></img>
+                </span>
                 <input
                     type="text"
                     className="is-searchBar_input"
