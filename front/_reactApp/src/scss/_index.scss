@@ -19,6 +19,22 @@
         font-size: 11px;
     }
 }
+.leaflet-control-container {
+    .leaflet-top.leaflet-left {
+        right: 14px;
+        left: unset;
+        top: 72px;
+    }
+    .leaflet-control-zoom {
+        margin: 0;
+        a {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            color: $cl_grey55;
+        }
+    }
+}
 
 // app styles
 .is-zoom {
@@ -26,22 +42,22 @@
         @if $i < 10 {
             &_#{$i} {
                 .is-sensor {
-                    height: calc( #{$i * 4}px - 30px) !important;
-                    width: calc( #{$i * 4}px - 30px) !important;
+                    height: calc(#{$i * 4}px - 30px) !important;
+                    width: calc(#{$i * 4}px - 30px) !important;
                 }
                 .is-sensorPopup {
-                    margin-left: calc( #{$i * 2}px - 15px);
+                    margin-left: calc(#{$i * 2}px - 15px);
                 }
             }
         } @else {
             &_#{$i} {
                 .is-sensor {
-                    height: calc( #{$i * 4}px - 30px) !important;
-                    width: calc( #{$i * 4}px - 30px) !important;
+                    height: calc(#{$i * 4}px - 30px) !important;
+                    width: calc(#{$i * 4}px - 30px) !important;
                     box-shadow: 0px 0px 4px 4px #00000066;
                 }
                 .is-sensorPopup {
-                    margin-left: calc( #{$i * 2}px - 15px);
+                    margin-left: calc(#{$i * 2}px - 15px);
                 }
             }
         }
@@ -54,7 +70,7 @@
     height: 40px;
     width: 40px;
     align-items: center;
-    border: 2px solid rgba(0, 0, 0, 0.2);
+    border: 2px solid #00000033;
     border-radius: 4px;
     z-index: 1000;
     span {
@@ -62,7 +78,7 @@
         width: 100%;
         display: flex;
         justify-content: center;
-        background: white;
+        background: $cl_whiteFF;
         border-radius: 4px;
     }
     svg {
@@ -81,24 +97,28 @@
     display: flex;
     height: 40px;
     width: calc(100vw - 94px);
-    border: 2px solid rgba(0, 0, 0, 0.2);
+    border: 2px solid #00000033;
     border-radius: 4px;
-    background-color: #fff;
     &_iconContainer {
-        min-width: 40px;
         display: flex;
-        justify-content: center;
-        border-left: 1px solid rgba(0, 0, 0, 0.2);
         height: 100%;
+        min-width: 40px;
         align-items: center;
+        justify-content: center;
+        border-left: 1px solid #00000033;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+        background: $cl_whiteFF;
     }
     &_icon {
-        height: 56%;
+        height: 34px;
     }
     &_input {
-        width: inherit;
+        width: 100%;
         padding: 0 10px;
         border: 0;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
     }
     .is-loaderDots {
         position: absolute;
@@ -107,10 +127,13 @@
     }
     .is-clearSearch {
         position: absolute;
-        top: 4px;
+        top: 3px;
         right: 45px;
-        font-size: 30px;
-        padding: 0 10px;
+        padding: 7px 10px;
+        img {
+            height: 24px;
+            opacity: 0.3;
+        }
     }
 }
 .is-placesList {
@@ -118,14 +141,14 @@
     top: 54px;
     width: calc(100vw - 94px);
     padding: 0;
-    border: 2px solid rgba(0, 0, 0, 0.2);
+    border: 2px solid #00000033;
     border-radius: 4px;
     background-color: #fff;
     z-index: 1000;
     &_item {
         list-style-type: none;
         padding: 7px 10px;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        border-bottom: 1px solid #00000033;
         font-size: 14px;
         line-height: 1.4;
         &:last-child {
@@ -163,6 +186,30 @@
     bottom: 10px;
     left: 10px;
     right: 10px;
+    .card-header {
+        text-shadow: 1px -1px 10px $cl_whiteFF, 1px 1px 10px $cl_whiteFF, -1px 1px 10px $cl_whiteFF,
+            -1px -1px 10px $cl_whiteFF;
+        color: $cl_black00;
+        .is-line1 {
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 21px;
+            .is-index {
+                padding: 4px 7px;
+                font-size: inherit;
+                font-weight: bold;
+                border: 2px solid #333;
+                border-radius: 4px;
+            }
+        }
+        .is-line2 {
+            padding-bottom: 5px;
+            font-weight: bold;
+        }
+    }
+    .is-number {
+        font-weight: bold;
+    }
 }
 
 // bootstrap styles:

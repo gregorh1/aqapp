@@ -101,7 +101,6 @@ class App extends Component {
                     center={this.props.position}
                     zoom={this.props.zoom}
                     animate={true}
-                    zoomControl={false}
                     onPopupClose={this.props.popupHide}
                     onZoomEnd={this.onZoomEndHandler}
                     onDragEnd={this.onMoveEndHandler}

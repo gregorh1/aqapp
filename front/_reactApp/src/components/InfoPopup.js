@@ -11,7 +11,7 @@ const InfoPopup = (props) => {
         const detailInfo1 = standards.map((item) => {
             return (
                 <li key={item.pollutant} className="list-group-item">
-                    {item.pollutant}: {item.percent}% dopuszczalnej wartości
+                    {item.pollutant}: <span className="is-number">{item.percent}</span>% dopuszczalnej wartości
                 </li>
             )
         })
@@ -20,13 +20,13 @@ const InfoPopup = (props) => {
             if (item.name === 'TEMPERATURE') {
                 return (
                     <li key={item.name} className="list-group-item">
-                        Temperatura: {item.value} st. Celsjusza
+                        Temperatura: <span className="is-number">{item.value}</span> °C
                     </li>
                 )
             } else if (item.name === 'HUMIDITY') {
                 return (
                     <li key={item.name} className="list-group-item">
-                        Wilgotność powietrza: {item.value}%
+                        Wilgotność powietrza: <span className="is-number">{item.value}</span>%
                     </li>
                 )
             }
@@ -38,8 +38,15 @@ const InfoPopup = (props) => {
             content = (
                 <div>
                     <div className="card-header" style={{ backgroundColor: indexes.color }}>
-                        Wskaźnik CAQI: {indexes.value}, {indexes.description}<br></br>
-                        {indexes.advice}
+                        <div className="is-line1">
+                            Wskaźnik CAQI: <span className="is-index">{indexes.value}</span>
+                        </div>
+                        <div className="is-line2">
+                            {indexes.description}
+                        </div>
+                        <div>
+                            {indexes.advice}
+                        </div>
                     </div>
                     <ul>
                         {detailInfo1}
