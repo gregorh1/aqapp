@@ -7,6 +7,7 @@ import { setPosition, getMyGeolocation, popupHide, getSensorsList, myGeolocation
 import GeoLocBtn from './components/GeoLocBtn'
 import SensorsMarkers from './components/SensorsMarkers'
 import Search from './components/Search';
+import InfoPopup from './components/InfoPopup'
 
 import { NOT_PERMITED, GRANTED } from './store/actions'
 
@@ -114,6 +115,7 @@ class App extends Component {
                 </Map>
                 <GeoLocBtn myGeoLocationOnclick={this.myGeoLocation} myLocationPermission={this.props.myLocationPermission} />
                 <Search getPositionFromSearch={this.getPositionFromSearch} />
+                {this.props.isPopupOpen && <InfoPopup sensorInfo={this.props.currentSensorInfo} />}
             </div>
         );
     }

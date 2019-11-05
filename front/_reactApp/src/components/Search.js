@@ -63,9 +63,9 @@ const Search = props => {
         <div className="is-searchBarContainer">
             <div className="is-searchBar">
                 {loader && <span className="is-loaderDots"></span>}
-                <span onClick={e => {setPlacesList(''); setUserInput('')}} className="is-clearSearch">
-                    <img src={iconClose} alt="wyszukaj"></img>
-                </span>
+                {userInput && <span onClick={e => {setPlacesList(''); setUserInput('')}} className="is-clearSearch">
+                    <img src={iconClose} alt="wyczyść"></img>
+                </span>}
                 <input
                     type="text"
                     className="is-searchBar_input"
