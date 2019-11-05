@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import InfoPopup from './InfoPopup'
 import MyMarkersList from './MyMarkersList'
 import { setSensorData } from '../store/actions'
 class SensorsMarkers extends Component {
@@ -30,7 +29,6 @@ class SensorsMarkers extends Component {
         return (
             <div>
                 <MyMarkersList markers={this.props.sensors} getSensorData={this.getSensorData} />
-                <InfoPopup sensorInfo={this.props.currentSensorInfo} isPopupOpen={this.props.isPopupOpen} />
             </div>
         )
     }

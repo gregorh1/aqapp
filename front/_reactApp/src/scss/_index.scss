@@ -21,17 +21,27 @@
 }
 .leaflet-control-container {
     .leaflet-top.leaflet-left {
-        right: 14px;
+        right: 16px;
         left: unset;
         top: 72px;
     }
     .leaflet-control-zoom {
         margin: 0;
+        border-width: $border-transparent-width;
+        border-radius: $border-transparent-radious;
         a {
             width: 40px;
             height: 40px;
             line-height: 40px;
             color: $cl_grey55;
+            &:first-child {
+                border-top-left-radius: $border-transparent-radious;
+                border-top-right-radius: $border-transparent-radious;
+            }
+            &:last-child {
+                border-bottom-left-radius: $border-transparent-radious;
+                border-bottom-right-radius: $border-transparent-radious;
+            }
         }
     }
 }
@@ -54,7 +64,7 @@
                 .is-sensor {
                     height: calc(#{$i * 4}px - 30px) !important;
                     width: calc(#{$i * 4}px - 30px) !important;
-                    box-shadow: 0px 0px 4px 4px #00000066;
+                    box-shadow: 0px 0px 0px 4px $cl_bkackTransparent;
                 }
                 .is-sensorPopup {
                     margin-left: calc(#{$i * 2}px - 15px);
@@ -70,8 +80,8 @@
     height: 40px;
     width: 40px;
     align-items: center;
-    border: 2px solid #00000033;
-    border-radius: 4px;
+    border: $border-transparent-width solid $cl_bkackTransparent;
+    border-radius: $border-transparent-radious;
     z-index: 1000;
     span {
         height: 100%;
@@ -79,35 +89,48 @@
         display: flex;
         justify-content: center;
         background: $cl_whiteFF;
-        border-radius: 4px;
+        border-radius: $border-transparent-radious;
+        &:hover {
+            background-color: #f4f4f4;
+        }
     }
     svg {
         position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
+        padding: 8px;
+    }
+    .is-anim {
+        animation: rotate 2s linear infinite;
+    }
+}
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
     }
 }
 .is-searchBarContainer {
     position: absolute;
     top: 16px;
     left: 76px;
+    right: 16px;
     z-index: 1000;
 }
 .is-searchBar {
     display: flex;
     height: 40px;
-    width: calc(100vw - 94px);
-    border: 2px solid #00000033;
-    border-radius: 4px;
+    border: $border-transparent-width solid $cl_bkackTransparent;
+    border-radius: $border-transparent-radious;
     &_iconContainer {
         display: flex;
         height: 100%;
         min-width: 40px;
         align-items: center;
         justify-content: center;
-        border-left: 1px solid #00000033;
-        border-top-right-radius: 4px;
-        border-bottom-right-radius: 4px;
+        border-left: 1px solid $cl_bkackTransparent;
+        border-top-right-radius: $border-transparent-radious;
+        border-bottom-right-radius: $border-transparent-radious;
         background: $cl_whiteFF;
     }
     &_icon {
@@ -117,8 +140,8 @@
         width: 100%;
         padding: 0 10px;
         border: 0;
-        border-top-left-radius: 4px;
-        border-bottom-left-radius: 4px;
+        border-top-left-radius: $border-transparent-radious;
+        border-bottom-left-radius: $border-transparent-radious;
     }
     .is-loaderDots {
         position: absolute;
@@ -139,67 +162,84 @@
 .is-placesList {
     position: absolute;
     top: 54px;
-    width: calc(100vw - 94px);
+    width: calc(100vw - 96px);
     padding: 0;
-    border: 2px solid #00000033;
-    border-radius: 4px;
-    background-color: #fff;
+    border: $border-transparent-width solid $cl_bkackTransparent;
+    border-radius: $border-transparent-radious;
     z-index: 1000;
     &_item {
         list-style-type: none;
         padding: 7px 10px;
-        border-bottom: 1px solid #00000033;
+        border-bottom: 1px solid $cl_bkackTransparent;
+        background-color: $cl_whiteFF;
         font-size: 14px;
         line-height: 1.4;
+        &:first-child {
+            border-top-left-radius: $border-transparent-radious;
+            border-top-right-radius: $border-transparent-radious;
+        }
         &:last-child {
             border: 0;
+            border-bottom-right-radius: $border-transparent-radious;
+            border-bottom-left-radius: $border-transparent-radious;
         }
     }
 }
 .is-myLoc {
     box-shadow: 0px 0px 0px 6px #4285f466;
     border-radius: 50%;
-    border: 1px solid #fff;
+    border: 1px solid $cl_whiteFF;
     background-color: #3d7dc9;
 }
 .is-sensor {
     border-radius: 50%;
     border: 1px solid #777;
-    background-color: #d000ff;
+    background-color: $cl_fuchsia;
 }
 .is-sensorPopup {
     padding: 0;
     .leaflet-popup-content-wrapper {
-        border-radius: 4px;
+        background: none;
+        border: $border-transparent-width solid $cl_bkackTransparent;
+        border-radius: $border-transparent-radious;
+        box-shadow: none;
     }
     .leaflet-popup-content {
-        margin: 5px 5px;
+        padding: 5px 5px;
+        margin: 0;
+        background: $cl_whiteFF;
+        text-align: center;
     }
-    .leaflet-popup-tip {
-        width: 12px;
-        height: 12px;
+    .leaflet-popup-tip-container {
+        display: none;
     }
 }
 .is-infoPopup {
     z-index: 1000;
     position: absolute;
-    bottom: 10px;
-    left: 10px;
-    right: 10px;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    border-radius: $border-transparent-radious;
+    .card {
+        border: $border-transparent-width solid $cl_bkackTransparent;
+        border-radius: $border-transparent-radious;
+        background: 0;
+    }
     .card-header {
         text-shadow: 1px -1px 10px $cl_whiteFF, 1px 1px 10px $cl_whiteFF, -1px 1px 10px $cl_whiteFF,
             -1px -1px 10px $cl_whiteFF;
         color: $cl_black00;
         .is-line1 {
-            margin-bottom: 15px;
+            margin: 10px 0;
             text-align: center;
             font-size: 21px;
             .is-index {
                 padding: 4px 7px;
                 font-size: inherit;
                 font-weight: bold;
-                border: 2px solid #333;
-                border-radius: 4px;
+                border: 2px solid cl_grey33;
+                border-radius: $border-transparent-radious;
             }
         }
         .is-line2 {
@@ -210,6 +250,43 @@
     .is-number {
         font-weight: bold;
     }
+    .is-label {
+        text-decoration: underline;
+        font-size: inherit;
+    }
+    .is-tooltip {
+        position: relative;
+        bottom: 16px;
+        left: 0;
+        right: 0;
+        max-height: 40vh;
+        overflow-y: scroll;
+        &_content {
+            background: $cl_whiteFF;
+            border-radius: $border-transparent-radious;
+            padding: 1.25rem 1.25rem;
+            img {
+                width: 100%;
+                margin: 16px 0;
+            }
+            p {
+                padding-bottom: 10px;
+            }
+            ul {
+                padding-bottom: 10px;
+                li {
+                    list-style-position: inside;
+                    padding: 4px 0;
+                }
+            }
+        }
+        .is-closeTooltip {
+            position: fixed;
+            right: 18px;
+            padding: 10px;
+            opacity: 0.3;
+        }
+    }
 }
 
 // bootstrap styles:
@@ -219,7 +296,7 @@
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
-    background-color: #fff;
+    background-color: $cl_whiteFF;
     background-clip: border-box;
     border: 1px solid rgba(0, 0, 0, 0.125);
     border-radius: 0.25rem;
@@ -246,9 +323,13 @@
     display: block;
     padding: 0.75rem 1.25rem;
     margin-bottom: -1px;
-    background-color: #fff;
+    background-color: $cl_whiteFF;
     border: 1px solid rgba(0, 0, 0, 0.125);
     border-right: 0;
     border-left: 0;
     border-radius: 0;
+    &:last-child {
+        border-bottom-right-radius: $border-transparent-radious;
+        border-bottom-left-radius: $border-transparent-radious;
+    }
 }
