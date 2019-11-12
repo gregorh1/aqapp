@@ -1,17 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
+import caqiTable from '../../assets/img/caqi-table.png'
 
-import caqiTable from '../../assets/caqi-table.png'
-import iconClose from '../../assets/close-icon.svg'
-
-const InfoPopup = (props) => {
-    const { sensorInfo } = props;
-    const indexes = sensorInfo.current.indexes[0];
-    const values = sensorInfo.current.values;
-    const standards = sensorInfo.current.standards;
-
-    const [tooltip, setTooltip] = useState('');
-
-    const caqi = (
+const texts = {
+    caqi: (
         <div>
             <p>
                 W celu zaprezentoawnia inoframacji o jakości powietrza
@@ -27,9 +18,8 @@ const InfoPopup = (props) => {
                 <a href="http://airqualitynow.eu/pl/about_indices_definition.php" target='_blank'>airqualitynow.eu</a>
             </p>
         </div>
-    )
-
-    const pm25 = (
+    ),
+    pm25: (
         <div>
             <p>
                 PM2.5 to najbardziej szkodliwe zanieczyszczenie, to aerozole atmosferyczne, których średnica jest nie większa niż 2.5 mikrometra.
@@ -86,9 +76,8 @@ const InfoPopup = (props) => {
                 Źródło: <a href='https://airly.eu/pl/pyl-zawieszony-czym-jest-pm10-a-czym-pm2-5-aerozole-atmosferyczne' target='_blank'>airly.pl</a>
             </p>
         </div>
-    )
-
-    const pm10 = (
+    ),
+    pm10: (
         <div>
             <p>
                 PM10 to mieszanina zawieszonych w powietrzu cząsteczek, których średnica nie przekracza 10 mikrogramów.
@@ -122,90 +111,6 @@ const InfoPopup = (props) => {
         </div>
     )
 
-    const tooltipContent = {
-        caqi: caqi,
-        PM25: pm25,
-        PM10: pm10,
-        NO2: '',
-        CO: ''
-    }
-
-    const detailInfo1 = standards.map((item) => {
-        return (
-            <li key={item.pollutant} className="list-group-item">
-                <span className='is-label' onClick={() => setTooltip(tooltipContent[item.pollutant])}>{item.pollutant}</span>:&nbsp;
-                        <span className="is-number">{item.percent}</span>
-                % dopuszczalnej wartości
-            </li>
-        )
-    })
-
-    const detailInfo2 = values.map((item) => {
-        if (item.name === 'TEMPERATURE') {
-            return (
-                <li key={item.name} className="list-group-item">
-                    Temperatura: <span className="is-number">{item.value}</span> °C
-                </li>
-            )
-        } else if (item.name === 'HUMIDITY') {
-            return (
-                <li key={item.name} className="list-group-item">
-                    Wilgotność powietrza: <span className="is-number">{item.value}</span>%
-                </li>
-            )
-        }
-        return null
-    })
-
-    let content;
-    if (indexes.value) {
-        content = (
-            <div>
-                <div className="card-header" style={{ backgroundColor: indexes.color }}>
-                    <div className="is-line1">
-                        Wskaźnik&nbsp;
-                            <span onClick={() => setTooltip(tooltipContent.caqi)} className="is-label">
-                            CAQI
-                            </span>:&nbsp;
-                            <span className="is-index">
-                            {indexes.value}
-                        </span>
-                    </div>
-                    <div className="is-line2">
-                        {indexes.description}
-                    </div>
-                    <div>
-                        {indexes.advice}
-                    </div>
-                </div>
-                <ul>
-                    {detailInfo1}
-                    {detailInfo2}
-                </ul>
-            </div>
-        )
-    } else {
-        content = (
-            <div className="card-header" style={{ backgroundColor: indexes.color }}>
-                {indexes.description}
-            </div>
-        )
-    }
-    return (
-        <div className="is-infoPopup" >
-            {tooltip && <div className="card is-tooltip">
-                <span onClick={() => setTooltip('')} className="is-closeTooltip">
-                    <img src={iconClose} alt="zamknij"></img>
-                </span>
-                <div className="is-tooltip_content">
-                    {tooltip}
-                </div>
-            </div>}
-            <div className="card">
-                {content}
-            </div>
-        </div>
-    )
 }
 
-export default InfoPopup;
+export default texts
