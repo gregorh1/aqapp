@@ -37,12 +37,12 @@ const timeStampSchema = new mongoose.Schema({
 const TimeStamp = mongoose.model('TimeStamp', timeStampSchema);
 
 const apis = {
+    // TODO openaq: request goes like this
     openaq: {
         url: 'https://api.openaq.org/v1/locations',
         headers: null,
         params: {
-            country: 'PL',
-            // city: 'sosnowiec'
+            country: 'PL'
         }
     },
     airly: {
@@ -151,7 +151,7 @@ const updateSensors = (isForce = false) => {
 }
 
 app.get('/db', (req, res) => {
-    updateSensors(true)
+    updateSensors()
     res.send('db updated')
 })
 

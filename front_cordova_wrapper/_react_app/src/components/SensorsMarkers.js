@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 
 import MyMarkersList from './MyMarkersList'
 import { setSensorData } from '../store/actions'
+
 class SensorsMarkers extends Component {
+
     getSensorData = (sensorId) => {
         const url = new URL('https://airapi.airly.eu/v2/measurements/installation');
         const headers = {
@@ -14,6 +16,7 @@ class SensorsMarkers extends Component {
         const params = {
             installationId: sensorId,
         };
+
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
         fetch(url, { headers })
