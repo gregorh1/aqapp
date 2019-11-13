@@ -1,18 +1,18 @@
 #global
 **/node_modules
-/front/platforms
-/front/plugins
-/front/_reactApp/src/index.css
+/front_cordova_wrapper/platforms
+/front_cordova_wrapper/plugins
+/front_cordova_wrapper/_react_app/src/index.css
 /backend/credentials.js
-/front/build.json
-/front/android.keystore
+/front_cordova_wrapper/build.json
+/front_cordova_wrapper/android.keystore
 
 # testing
-/front/_reactApp/coverage
+/front_cordova_wrapper/_react_app/coverage
 
 # production
-/front/_reactApp/build
-/front/www
+/front_cordova_wrapper/_react_app/build
+/front_cordova_wrapper/www
 
 # misc
 .DS_Store

@@ -12,7 +12,7 @@ import InfoPopup from './components/InfoPopup'
 import { NOT_PERMITED, GRANTED } from './store/actions'
 
 const myLocIcon = new L.Icon({
-    iconUrl: require('../assets/circle.svg'),
+    iconUrl: require('../assets/img/circle.svg'),
     popupAnchor: [0, -20],
     iconSize: [10, 10],
     className: 'is-myLoc'

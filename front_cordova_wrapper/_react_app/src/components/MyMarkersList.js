@@ -3,7 +3,7 @@ import { Marker, Popup, } from 'react-leaflet'
 import L from 'leaflet'
 
 const sensorIcon = new L.Icon({
-    iconUrl: require('../../assets/circle.svg'),
+    iconUrl: require('../../assets/img/circle.svg'),
     popupAnchor: [-3, 0],
     iconSize: [8, 8],
     className: 'is-sensor'

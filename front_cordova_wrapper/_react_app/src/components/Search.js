@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import icon from '../../assets/search-icon.svg'
-import iconClose from '../../assets/close-icon.svg'
+import icon from '../../assets/img/search-icon.svg'
+import iconClose from '../../assets/img/close-icon.svg'
 
 const Search = props => {
 
