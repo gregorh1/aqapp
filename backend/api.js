@@ -1,9 +1,6 @@
 const express = require('express')
 const app = express()
-let port = process.env.PORT;
-if (port == null || port == '') {
-    port = 3002;
-}
+let port = process.env.PORT || 3002;
 const axios = require('axios')
 const credentials = require('./credentials') // not committed file
 
@@ -30,21 +27,7 @@ const sensorSchema = new mongoose.Schema({
 });
 const Sensor = mongoose.model('Sensor', sensorSchema);
 
-const timeStampSchema = new mongoose.Schema({
-    timestamp: Number
-});
-
-const TimeStamp = mongoose.model('TimeStamp', timeStampSchema);
-
 const apis = {
-    // TODO openaq: request goes like this
-    openaq: {
-        url: 'https://api.openaq.org/v1/locations',
-        headers: null,
-        params: {
-            country: 'PL'
-        }
-    },
     airly: {
         url: 'https://airapi.airly.eu/v2/installations/nearest',
         headers: {
@@ -67,92 +50,47 @@ const useAxios = (api) => {
     })
 }
 
-const updateSensors = (isForce = false) => {
-    TimeStamp.find({ _id: '5da48fa0556b6a4e2446bc33' }, function (err, timeSt) {
-        const then = timeSt[0].timestamp;
-        const now = Math.floor(Date.now() / (1000 * 60))
-        if (now - then > 60 || isForce) {
-            // TODO in future use separate timestamps for separate providers
-            TimeStamp.findOneAndUpdate({ _id: '5da48fa0556b6a4e2446bc33' }, { timestamp: Math.floor(Date.now() / (1000 * 60)) }, function (err) {
-                console.log('timestamp updated');
+const updateSensors = () => {
+    useAxios(apis.airly)
+        .then(extResponse => {
+            const sensors = extResponse.data.map((item) => {
+                const content = `${!item.address.displayAddress1 ? '' : (item.address.displayAddress1 + ', ')}${item.address.displayAddress2 || ''}`
+                return {
+                    key: item.id,
+                    position: [
+                        item.location.latitude,
+                        item.location.longitude
+                    ],
+                    content,
+                    sensorId: item.id,
+                    provider: 'airly'
+                }
             })
-            // airly
-            useAxios(apis.airly)
-                .then(extResponse => {
-                    const sensors = extResponse.data.map((item) => {
-                        const content = `${!item.address.displayAddress1 ? '' : (item.address.displayAddress1 + ', ')}${item.address.displayAddress2 || ''}`
-                        return {
-                            key: item.id,
-                            position: [
-                                item.location.latitude,
-                                item.location.longitude
-                            ],
-                            content: content,
-                            sensorId: item.id,
-                            provider: 'airly'
-                        }
-                    })
-                    return sensors
-                })
-                .then((sensors) => {
-                    // delete sensors from this provider
-                    Sensor.deleteMany({ provider: 'airly' }, function (err) {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            // send new sensors to db
-                            sensors.forEach(sensor => {
-                                const entry = new Sensor(sensor)
-                                entry.save()
-                            });
-                            console.log('airly sensors updating');
-                        }
-                    })
-                })
-                .catch(err => {
+            return sensors
+        })
+        .then((sensors) => {
+            // delete sensors from this provider
+            Sensor.deleteMany({ provider: 'airly' }, function (err) {
+                if (err) {
                     console.log(err);
-                })
-
-            // openaq
-            // useAxios(apis.openaq)
-            //     .then(extResponse => {
-            //         const sensors = extResponse.data.results.map((item) => {
-            //             return {
-            //                 key: item.id,
-            //                 position: [
-            //                     item.coordinates.latitude,
-            //                     item.coordinates.longitude
-            //                 ],
-            //                 content: item.location
-            //             }
-            //         })
-            //         return sensors
-            //     })
-            //     .then((sensors) => {
-            //         // delete sensors from this provider
-            //         Sensor.deleteMany({ provider: 'airly' }, function (err) {
-            //             if (err) {
-            //                 console.log(err);
-            //             } else {
-            //                 // send new sensors to db
-            //                 sensors.forEach(sensor => {
-            //                     const entry = new Sensor(sensor)
-            //                     entry.save()
-            //                 });
-            //                 console.log('openaq sensors updating');
-            //             }
-            //         })
-            //     })
-            //     .catch(err => {
-            //         console.log(err);
-            //     })
-        } // if
-    })
+                } else {
+                    // send new sensors to db
+                    sensors.forEach(sensor => {
+                        const entry = new Sensor(sensor)
+                        entry.save()
+                    });
+                    console.log('airly sensors updating');
+                }
+            })
+        })
+        .catch(err => {
+            console.log(err);
+        })
 }
 
-app.get('/db', (req, res) => {
+app.get('/update-sensors', (req, res) => {
     updateSensors()
-    res.send('db updated')
+    res.send('sensors updating - manually update')
 })
 
 app.get('/data', (req, res) => {

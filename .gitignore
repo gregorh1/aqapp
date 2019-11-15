@@ -1,5 +1,6 @@
 #global
 **/node_modules
+/www
 /front_cordova_wrapper/platforms
 /front_cordova_wrapper/plugins
 /front_cordova_wrapper/_react_app/src/index.css
