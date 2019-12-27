@@ -53,7 +53,7 @@ class App extends Component {
         this.props.setPosition({ position: latLng, zoom: 13 })
     }
 
-    getSensorsFromApi = () => {
+    getSensorsFromApi = async () => {
         const backend = {
             local: 'http://localhost:3002/data',
             heroku: 'https://aq-app-backend.herokuapp.com/data'
@@ -65,17 +65,11 @@ class App extends Component {
             lngMin: _southWest.lng,
             lngMax: _northEast.lng
         }
-        const url = new URL(backend.heroku) // if local change to local
-
+        const url = new URL(backend.local) // if local change to local
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
-        fetch(url)
-            .then(resp => {
-                return resp.json()
-            })
-            .then(respJson => {
-                this.props.getSensorsList(respJson)
-            })
+        const sensors = await fetch(url).then(resp => resp.json())
+        this.props.getSensorsList(sensors)
     }
 
     onZoomEndHandler = () => {
