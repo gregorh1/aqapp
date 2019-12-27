@@ -127,7 +127,7 @@ app.get('/data', (req, res) => {
 setInterval(() => {
     updateSensors();
     console.log('sensors updateing from setInterval');
-}, 1000 * 60 * 12);
+}, 1000 * 60 * 60 * 6); // 6h interval
 
 app.listen(port)
 
