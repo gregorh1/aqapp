@@ -3,6 +3,10 @@ const app = express()
 let port = process.env.PORT || 3002;
 const axios = require('axios')
 const credentials = require('./credentials') // not committed file
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -26,6 +30,12 @@ const sensorSchema = new mongoose.Schema({
     provider: String
 });
 const Sensor = mongoose.model('Sensor', sensorSchema);
+
+const correctionSchema = new mongoose.Schema({
+    text: String,
+    file: String,
+})
+const Correction = mongoose.model('Correction', correctionSchema);
 
 const apis = {
     airly: {
@@ -122,6 +132,12 @@ app.get('/data', (req, res) => {
                 res.send(data)
             }
         })
+})
+
+app.post('/revelations', (req, res) => {
+    console.log('revelations req', req.body);
+    const entry = new Correction(req.body);
+    entry.save();
 })
 
 setInterval(() => {
