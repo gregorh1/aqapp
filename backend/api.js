@@ -135,9 +135,9 @@ app.get('/data', (req, res) => {
 })
 
 app.post('/revelations', (req, res) => {
-    console.log('revelations req', req.body);
     const entry = new Correction(req.body);
     entry.save();
+    res.send('correction saved')
 })
 
 setInterval(() => {
